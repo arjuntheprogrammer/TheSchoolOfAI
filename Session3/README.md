@@ -11,3 +11,10 @@ Project 3 for The School of AI
     5.1 it has less than 20000 parameters
     
     5.2 it achieves validation accuracy of more than 99.4% (basically print(score) should be more than 0.994)
+
+---------------------------------------------------------------------------------------
+### Notebook Name: 1st_DNN.ipynb
+### P.S Tried model with output result can we found under ModelOutputResults.
+
+
+
