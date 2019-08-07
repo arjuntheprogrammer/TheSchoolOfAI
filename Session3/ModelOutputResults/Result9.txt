@@ -1,0 +1,70 @@
+from keras.layers import Activation
+model = Sequential()
+
+ 
+model.add(Convolution2D(8, 3, 3, activation='relu', input_shape=(28,28,1)))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(24, 3, 3, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(24, 3, 3, activation='relu'))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3))
+model.add(Convolution2D(24, 3, 3))
+model.add(Convolution2D(10, 3, 3))
+
+model.add(Flatten())
+model.add(Activation('softmax'))
+
+model.summary()
+
+Total params: 16,594
+Trainable params: 16,594
+Non-trainable params: 0
+
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:4: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  after removing the cwd from sys.path.
+Epoch 1/20
+60000/60000 [==============================] - 17s 277us/step - loss: 0.2285 - acc: 0.9290
+Epoch 2/20
+60000/60000 [==============================] - 14s 238us/step - loss: 0.0893 - acc: 0.9727
+Epoch 3/20
+60000/60000 [==============================] - 14s 238us/step - loss: 0.0708 - acc: 0.9785
+Epoch 4/20
+60000/60000 [==============================] - 14s 239us/step - loss: 0.0604 - acc: 0.9816
+Epoch 5/20
+60000/60000 [==============================] - 14s 237us/step - loss: 0.0536 - acc: 0.9834
+Epoch 6/20
+60000/60000 [==============================] - 14s 238us/step - loss: 0.0462 - acc: 0.9858
+Epoch 7/20
+60000/60000 [==============================] - 14s 238us/step - loss: 0.0428 - acc: 0.9861
+Epoch 8/20
+60000/60000 [==============================] - 14s 239us/step - loss: 0.0385 - acc: 0.9879
+Epoch 9/20
+60000/60000 [==============================] - 14s 239us/step - loss: 0.0347 - acc: 0.9887
+Epoch 10/20
+60000/60000 [==============================] - 14s 238us/step - loss: 0.0324 - acc: 0.9898
+Epoch 11/20
+60000/60000 [==============================] - 14s 238us/step - loss: 0.0302 - acc: 0.9906
+Epoch 12/20
+60000/60000 [==============================] - 14s 238us/step - loss: 0.0294 - acc: 0.9905
+Epoch 13/20
+60000/60000 [==============================] - 14s 237us/step - loss: 0.0270 - acc: 0.9912
+Epoch 14/20
+60000/60000 [==============================] - 14s 238us/step - loss: 0.0267 - acc: 0.9910
+Epoch 15/20
+60000/60000 [==============================] - 15s 245us/step - loss: 0.0243 - acc: 0.9919
+Epoch 16/20
+60000/60000 [==============================] - 14s 239us/step - loss: 0.0226 - acc: 0.9931
+Epoch 17/20
+60000/60000 [==============================] - 14s 240us/step - loss: 0.0225 - acc: 0.9927
+Epoch 18/20
+60000/60000 [==============================] - 14s 238us/step - loss: 0.0222 - acc: 0.9925
+Epoch 19/20
+60000/60000 [==============================] - 15s 244us/step - loss: 0.0221 - acc: 0.9926
+Epoch 20/20
+60000/60000 [==============================] - 15s 247us/step - loss: 0.0208 - acc: 0.9935
+[0.03685043758204556, 0.9892]

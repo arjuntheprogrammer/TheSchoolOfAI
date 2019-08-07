@@ -1,0 +1,28 @@
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:4: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  after removing the cwd from sys.path.
+W0807 12:28:42.968469 140405159626624 deprecation.py:323] From /usr/local/lib/python3.6/dist-packages/tensorflow/python/ops/math_grad.py:1250: add_dispatch_support.<locals>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+Epoch 1/10
+60000/60000 [==============================] - 13s 218us/step - loss: 0.7725 - acc: 0.7178
+Epoch 2/10
+60000/60000 [==============================] - 12s 200us/step - loss: 0.5782 - acc: 0.7695
+Epoch 3/10
+60000/60000 [==============================] - 12s 200us/step - loss: 0.5564 - acc: 0.7735
+Epoch 4/10
+60000/60000 [==============================] - 12s 200us/step - loss: 0.5450 - acc: 0.7762
+Epoch 5/10
+60000/60000 [==============================] - 12s 202us/step - loss: 0.5358 - acc: 0.7786
+Epoch 6/10
+60000/60000 [==============================] - 12s 198us/step - loss: 0.5306 - acc: 0.7785
+Epoch 7/10
+60000/60000 [==============================] - 12s 200us/step - loss: 0.5267 - acc: 0.7796
+Epoch 8/10
+60000/60000 [==============================] - 12s 197us/step - loss: 0.5231 - acc: 0.7806
+Epoch 9/10
+60000/60000 [==============================] - 12s 198us/step - loss: 0.5187 - acc: 0.7816
+Epoch 10/10
+60000/60000 [==============================] - 12s 199us/step - loss: 0.5176 - acc: 0.7816
+<keras.callbacks.History at 0x7fb1f5356c18>
+
+[0.5343007643699647, 0.7759]

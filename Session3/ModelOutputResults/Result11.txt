@@ -1,0 +1,52 @@
+from keras.layers import Activation
+model = Sequential()
+
+ 
+model.add(Convolution2D(8, 3, 3, activation='relu', input_shape=(28,28,1)))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3))
+model.add(Convolution2D(32, 3, 3))
+
+model.add(Convolution2D(10, 1, 1))
+model.add(Convolution2D(10, 3, 3))
+
+model.add(Flatten())
+model.add(Activation('softmax'))
+
+model.summary()
+
+Total params: 19,272
+Trainable params: 19,272
+Non-trainable params: 0
+
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:4: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  after removing the cwd from sys.path.
+Epoch 1/10
+60000/60000 [==============================] - 19s 318us/step - loss: 0.2245 - acc: 0.9306
+Epoch 2/10
+60000/60000 [==============================] - 16s 267us/step - loss: 0.0842 - acc: 0.9747
+Epoch 3/10
+60000/60000 [==============================] - 16s 265us/step - loss: 0.0664 - acc: 0.9796
+Epoch 4/10
+60000/60000 [==============================] - 16s 265us/step - loss: 0.0573 - acc: 0.9818
+Epoch 5/10
+60000/60000 [==============================] - 16s 264us/step - loss: 0.0501 - acc: 0.9842
+Epoch 6/10
+60000/60000 [==============================] - 16s 264us/step - loss: 0.0446 - acc: 0.9864
+Epoch 7/10
+60000/60000 [==============================] - 16s 265us/step - loss: 0.0409 - acc: 0.9873
+Epoch 8/10
+60000/60000 [==============================] - 16s 267us/step - loss: 0.0395 - acc: 0.9876
+Epoch 9/10
+60000/60000 [==============================] - 16s 265us/step - loss: 0.0352 - acc: 0.9889
+Epoch 10/10
+60000/60000 [==============================] - 16s 273us/step - loss: 0.0333 - acc: 0.9887
+[0.054450553117482925, 0.9813]

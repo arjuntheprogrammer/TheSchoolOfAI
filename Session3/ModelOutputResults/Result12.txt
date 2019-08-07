@@ -1,0 +1,50 @@
+from keras.layers import Activation
+model = Sequential()
+
+ 
+model.add(Convolution2D(16, 3, 3, activation='relu', input_shape=(28,28,1)))
+model.add(Convolution2D(24, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1))
+model.add(Convolution2D(10, 3, 3))
+
+model.add(Flatten())
+model.add(Activation('softmax'))
+
+model.summary()
+
+=================================================================
+Total params: 17,650
+Trainable params: 17,650
+Non-trainable params: 0
+
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:4: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  after removing the cwd from sys.path.
+Epoch 1/10
+60000/60000 [==============================] - 18s 292us/step - loss: 0.2203 - acc: 0.9333
+Epoch 2/10
+60000/60000 [==============================] - 13s 223us/step - loss: 0.0801 - acc: 0.9756
+Epoch 3/10
+60000/60000 [==============================] - 13s 223us/step - loss: 0.0572 - acc: 0.9821
+Epoch 4/10
+60000/60000 [==============================] - 13s 223us/step - loss: 0.0459 - acc: 0.9858
+Epoch 5/10
+60000/60000 [==============================] - 13s 223us/step - loss: 0.0401 - acc: 0.9872
+Epoch 6/10
+60000/60000 [==============================] - 14s 228us/step - loss: 0.0346 - acc: 0.9890
+Epoch 7/10
+60000/60000 [==============================] - 14s 233us/step - loss: 0.0312 - acc: 0.9901
+Epoch 8/10
+60000/60000 [==============================] - 13s 224us/step - loss: 0.0271 - acc: 0.9915
+Epoch 9/10
+60000/60000 [==============================] - 13s 223us/step - loss: 0.0256 - acc: 0.9917
+Epoch 10/10
+60000/60000 [==============================] - 13s 224us/step - loss: 0.0220 - acc: 0.9929
+[0.03494142616636964, 0.9896]

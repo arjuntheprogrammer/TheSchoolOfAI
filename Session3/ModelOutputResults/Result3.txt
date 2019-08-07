@@ -1,0 +1,52 @@
+from keras.layers import Activation
+model = Sequential()
+
+ 
+model.add(Convolution2D(8, 3, 3, activation='relu', input_shape=(28,28,1)))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1))
+model.add(Convolution2D(10, 3, 3))
+
+model.add(Flatten())
+model.add(Activation('softmax'))
+
+model.summary()
+
+=================================================================
+Total params: 12,954
+Trainable params: 12,954
+Non-trainable params: 0
+
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:4: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  after removing the cwd from sys.path.
+Epoch 1/10
+60000/60000 [==============================] - 13s 214us/step - loss: 0.2189 - acc: 0.9317
+Epoch 2/10
+60000/60000 [==============================] - 12s 197us/step - loss: 0.0682 - acc: 0.9795
+Epoch 3/10
+60000/60000 [==============================] - 12s 197us/step - loss: 0.0498 - acc: 0.9851
+Epoch 4/10
+60000/60000 [==============================] - 12s 197us/step - loss: 0.0432 - acc: 0.9868
+Epoch 5/10
+60000/60000 [==============================] - 12s 197us/step - loss: 0.0367 - acc: 0.9889
+Epoch 6/10
+60000/60000 [==============================] - 12s 197us/step - loss: 0.0336 - acc: 0.9896
+Epoch 7/10
+60000/60000 [==============================] - 12s 197us/step - loss: 0.0294 - acc: 0.9907
+Epoch 8/10
+60000/60000 [==============================] - 12s 197us/step - loss: 0.0272 - acc: 0.9914
+Epoch 9/10
+60000/60000 [==============================] - 12s 196us/step - loss: 0.0241 - acc: 0.9925
+Epoch 10/10
+60000/60000 [==============================] - 12s 197us/step - loss: 0.0229 - acc: 0.9925
+<keras.callbacks.History at 0x7fb1f451a5f8>
+
+[0.029657897378475174, 0.9904]

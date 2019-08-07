@@ -1,0 +1,63 @@
+60000/60000 [==============================] - 15s 243us/step - loss: 0.0322 - acc: 0.9897
+Epoch 10/10
+60000/60000 [==============================] - 15s 242us/step - loss: 0.0285 - acc: 0.9908
+[0.035842558583439675, 0.9898]
+
+
+
+from keras.layers import Activation
+from keras.layers import LeakyReLU
+
+
+model = Sequential()
+
+ 
+model.add(Convolution2D(8, 3, 3, input_shape=(28,28,1)))
+model.add(LeakyReLU(alpha=0.05))
+model.add(Convolution2D(16, 3, 3,))
+model.add(LeakyReLU(alpha=0.05))
+model.add(Convolution2D(32, 3, 3))
+model.add(LeakyReLU(alpha=0.05))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1))
+model.add(Convolution2D(10, 3, 3))
+
+model.add(Flatten())
+model.add(Activation('softmax'))
+
+model.summary()
+
+=================================================================
+Total params: 12,954
+Trainable params: 12,954
+Non-trainable params: 0
+
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:4: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  after removing the cwd from sys.path.
+Epoch 1/10
+60000/60000 [==============================] - 20s 340us/step - loss: 0.2249 - acc: 0.9308
+Epoch 2/10
+60000/60000 [==============================] - 15s 251us/step - loss: 0.0794 - acc: 0.9753
+Epoch 3/10
+60000/60000 [==============================] - 15s 253us/step - loss: 0.0604 - acc: 0.9815
+Epoch 4/10
+60000/60000 [==============================] - 15s 255us/step - loss: 0.0498 - acc: 0.9842
+Epoch 5/10
+60000/60000 [==============================] - 15s 249us/step - loss: 0.0427 - acc: 0.9867
+Epoch 6/10
+60000/60000 [==============================] - 15s 251us/step - loss: 0.0379 - acc: 0.9882
+Epoch 7/10
+60000/60000 [==============================] - 15s 249us/step - loss: 0.0324 - acc: 0.9897
+Epoch 8/10
+60000/60000 [==============================] - 15s 251us/step - loss: 0.0295 - acc: 0.9904
+Epoch 9/10
+60000/60000 [==============================] - 15s 253us/step - loss: 0.0270 - acc: 0.9915
+Epoch 10/10
+60000/60000 [==============================] - 15s 254us/step - loss: 0.0247 - acc: 0.9920
+[0.029721984330797566, 0.9906]

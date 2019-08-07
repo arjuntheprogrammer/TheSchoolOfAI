@@ -1,0 +1,47 @@
+from keras.layers import Activation
+model = Sequential()
+
+ 
+model.add(Convolution2D(8, 3, 3, activation='relu', input_shape=(28,28,1)))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+
+model.add(Convolution2D(8, 1, 1))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(16, 3, 3))
+
+model.add(Convolution2D(10, 3, 3))
+
+model.add(Flatten())
+model.add(Activation('softmax'))
+
+model.summary()
+
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:4: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  after removing the cwd from sys.path.
+Epoch 1/10
+60000/60000 [==============================] - 15s 256us/step - loss: 0.2229 - acc: 0.9296
+Epoch 2/10
+60000/60000 [==============================] - 14s 231us/step - loss: 0.0724 - acc: 0.9778
+Epoch 3/10
+60000/60000 [==============================] - 14s 231us/step - loss: 0.0570 - acc: 0.9819
+Epoch 4/10
+60000/60000 [==============================] - 14s 232us/step - loss: 0.0476 - acc: 0.9851
+Epoch 5/10
+60000/60000 [==============================] - 14s 231us/step - loss: 0.0410 - acc: 0.9874
+Epoch 6/10
+60000/60000 [==============================] - 14s 231us/step - loss: 0.0366 - acc: 0.9883
+Epoch 7/10
+60000/60000 [==============================] - 14s 232us/step - loss: 0.0325 - acc: 0.9901
+Epoch 8/10
+60000/60000 [==============================] - 14s 231us/step - loss: 0.0298 - acc: 0.9905
+Epoch 9/10
+60000/60000 [==============================] - 14s 231us/step - loss: 0.0279 - acc: 0.9910
+Epoch 10/10
+60000/60000 [==============================] - 14s 231us/step - loss: 0.0264 - acc: 0.9919
+[0.03959918201098917, 0.9864]

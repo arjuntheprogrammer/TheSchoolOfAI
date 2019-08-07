@@ -1,0 +1,56 @@
+from keras.layers import Activation
+from keras.layers import LeakyReLU
+
+model = Sequential()
+ 
+model.add(Convolution2D(8, 3, 3, input_shape=(28,28,1))); model.add(LeakyReLU(alpha=0.05))
+model.add(Convolution2D(16, 3, 3)); model.add(LeakyReLU(alpha=0.05))
+model.add(Convolution2D(32, 3, 3)); model.add(LeakyReLU(alpha=0.05))
+
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+
+model.add(Convolution2D(8, 1, 1)); model.add(LeakyReLU(alpha=0.05))
+model.add(Convolution2D(16, 3, 3)); model.add(LeakyReLU(alpha=0.05))
+model.add(Convolution2D(32, 3, 3)); model.add(LeakyReLU(alpha=0.05))
+
+
+model.add(Convolution2D(8, 1, 1))
+model.add(Convolution2D(16, 3, 3)); model.add(LeakyReLU(alpha=0.05))
+
+model.add(Convolution2D(24, 3, 3))
+model.add(Convolution2D(10, 3, 3))
+
+model.add(Flatten())
+model.add(Activation('softmax'))
+
+model.summary()
+
+=================================================================
+Total params: 19,042
+Trainable params: 19,042
+Non-trainable params: 0
+
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:4: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  after removing the cwd from sys.path.
+Epoch 1/10
+60000/60000 [==============================] - 22s 375us/step - loss: 0.1961 - acc: 0.9391
+Epoch 2/10
+60000/60000 [==============================] - 17s 282us/step - loss: 0.0714 - acc: 0.9773
+Epoch 3/10
+60000/60000 [==============================] - 17s 284us/step - loss: 0.0550 - acc: 0.9833
+Epoch 4/10
+60000/60000 [==============================] - 17s 282us/step - loss: 0.0444 - acc: 0.9866
+Epoch 5/10
+60000/60000 [==============================] - 17s 282us/step - loss: 0.0400 - acc: 0.9877
+Epoch 6/10
+60000/60000 [==============================] - 17s 282us/step - loss: 0.0341 - acc: 0.9894
+Epoch 7/10
+60000/60000 [==============================] - 17s 282us/step - loss: 0.0316 - acc: 0.9900
+Epoch 8/10
+60000/60000 [==============================] - 17s 283us/step - loss: 0.0282 - acc: 0.9912
+Epoch 9/10
+60000/60000 [==============================] - 17s 282us/step - loss: 0.0256 - acc: 0.9919
+Epoch 10/10
+60000/60000 [==============================] - 17s 282us/step - loss: 0.0240 - acc: 0.9926
+[0.02760106704643622, 0.9911]

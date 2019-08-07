@@ -1,0 +1,53 @@
+from keras.layers import Activation
+model = Sequential()
+
+ 
+model.add(Convolution2D(8, 3, 3, activation='relu', input_shape=(28,28,1)))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+
+model.add(Convolution2D(8, 1, 1))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(24, 3, 3))
+
+model.add(Convolution2D(10, 3, 3))
+
+model.add(Flatten())
+model.add(Activation('softmax'))
+
+model.summary()
+=================================================================
+Total params: 19,042
+Trainable params: 19,042
+Non-trainable params: 0
+
+
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:4: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  after removing the cwd from sys.path.
+Epoch 1/10
+60000/60000 [==============================] - 16s 266us/step - loss: 0.2052 - acc: 0.9344
+Epoch 2/10
+60000/60000 [==============================] - 14s 235us/step - loss: 0.0744 - acc: 0.9771
+Epoch 3/10
+60000/60000 [==============================] - 14s 241us/step - loss: 0.0580 - acc: 0.9820
+Epoch 4/10
+60000/60000 [==============================] - 14s 235us/step - loss: 0.0480 - acc: 0.9843
+Epoch 5/10
+60000/60000 [==============================] - 14s 236us/step - loss: 0.0403 - acc: 0.9874
+Epoch 6/10
+60000/60000 [==============================] - 14s 237us/step - loss: 0.0367 - acc: 0.9885
+Epoch 7/10
+60000/60000 [==============================] - 14s 235us/step - loss: 0.0336 - acc: 0.9893
+Epoch 8/10
+60000/60000 [==============================] - 14s 234us/step - loss: 0.0307 - acc: 0.9902
+Epoch 9/10
+60000/60000 [==============================] - 14s 235us/step - loss: 0.0280 - acc: 0.9908
+Epoch 10/10
+60000/60000 [==============================] - 14s 234us/step - loss: 0.0255 - acc: 0.9917
+[0.029771602671127766, 0.9909]
+

@@ -1,0 +1,52 @@
+from keras.layers import Activation
+model = Sequential()
+
+ 
+model.add(Convolution2D(8, 3, 3, activation='relu', input_shape=(28,28,1)))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3, activation='relu'))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+
+model.add(Convolution2D(8, 1, 1, activation='relu'))
+model.add(Convolution2D(16, 3, 3))
+model.add(Convolution2D(32, 3, 3, activation='relu'))
+
+model.add(Convolution2D(10, 1, 1, activation='relu'))
+model.add(Convolution2D(10, 3, 3))
+
+model.add(Flatten())
+model.add(Activation('softmax'))
+
+model.summary()
+
+Total params: 19,272
+Trainable params: 19,272
+Non-trainable params: 0
+
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:4: UserWarning: The `nb_epoch` argument in `fit` has been renamed `epochs`.
+  after removing the cwd from sys.path.
+Epoch 1/10
+60000/60000 [==============================] - 20s 327us/step - loss: 0.2686 - acc: 0.9154
+Epoch 2/10
+60000/60000 [==============================] - 16s 268us/step - loss: 0.0925 - acc: 0.9724
+Epoch 3/10
+60000/60000 [==============================] - 16s 266us/step - loss: 0.0677 - acc: 0.9787
+Epoch 4/10
+60000/60000 [==============================] - 16s 266us/step - loss: 0.0567 - acc: 0.9823
+Epoch 5/10
+60000/60000 [==============================] - 16s 274us/step - loss: 0.0495 - acc: 0.9846
+Epoch 6/10
+60000/60000 [==============================] - 16s 266us/step - loss: 0.0453 - acc: 0.9860
+Epoch 7/10
+60000/60000 [==============================] - 16s 269us/step - loss: 0.0422 - acc: 0.9865
+Epoch 8/10
+60000/60000 [==============================] - 16s 265us/step - loss: 0.0384 - acc: 0.9881
+Epoch 9/10
+60000/60000 [==============================] - 16s 265us/step - loss: 0.0346 - acc: 0.9887
+Epoch 10/10
+60000/60000 [==============================] - 16s 266us/step - loss: 0.0325 - acc: 0.9896
+[0.05398401246697467, 0.986]
