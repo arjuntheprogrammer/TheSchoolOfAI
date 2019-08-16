@@ -14,8 +14,18 @@ Project 4 for The School of AI
 2. Your second code can only have max 2 improvements over first one, third can have only max 2 over second and so on.
 3. All of your iterations are in different CODE BLOCKS and named properly like First CODE, Second CODE, etc
 4. All of your code is very well documented
+---------------------------------------------------------------------------------------
+## Best Validation Accuracy Achieved: 99.42%
 
-
+### With Following Parameters:
+1. Batch Normalisation
+2. Dropout = 0.15
+3. Optimizer = Adam [Default Learning Rate LR=0.001]
+4. Batch Size=32
+5. Epoch = 17
+6. **Total params**: 14,024, 
+7. **Trainable params**: 13,760, **Non-trainable params**: 264
+8. Validation loss: 2.33%
 ---------------------------------------------------------------------------------------
 ### Notebook Name: Session4_DNN.ipynb
 ---------------------------------------------------------------------------------------
