@@ -46,3 +46,10 @@ Project  for The School of AI
 5. model_GroupedConvolution2.h5 and model_GroupedConvolution2_afterTraining.h5
 
 ---------------------------------------------------------------------------------------
+### Group Convolution Model 1 Architecture
+![model_GroupedConvolution1_plot](https://user-images.githubusercontent.com/15984084/64485709-57d82100-d241-11e9-8a79-60432fe473d6.png)
+---------------------------------------------------------------------------------------
+### Group Convolution Model 2 Architecture
+![model_GroupedConvolution2_plot](https://user-images.githubusercontent.com/15984084/64485710-57d82100-d241-11e9-9fff-d6890d12e704.png)
+
+---------------------------------------------------------------------------------------
