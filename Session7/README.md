@@ -55,5 +55,10 @@ P.S - for calculating the R.F. through the Inception block - I have considered t
 
 --------------------------------------------------------------------------------------
 
+## Model Architecture with Skip Connections
+![model_plot](https://user-images.githubusercontent.com/15984084/64485579-78ec4200-d240-11e9-9b78-bf024628b8a6.png)
+
+--------------------------------------------------------------------------------------
+
 
 
