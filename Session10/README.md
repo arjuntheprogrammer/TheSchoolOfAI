@@ -1,6 +1,6 @@
 # TSAI_Session10
 
-Project  for The School of AI
+Project for The School of AI
 ---------------------------------------------------------------------------------------
 
 1. Refer to the GRADCAM code we wrote: https://colab.research.google.com/drive/10GugXUNI7ztK2joRZUnYyqRrQbYnOQE0

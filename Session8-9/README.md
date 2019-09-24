@@ -1,6 +1,6 @@
 # TSAI_Session8-9
 
-Project  for The School of AI
+Project for The School of AI
 ---------------------------------------------------------------------------------------
 ## **Part 1 :**
 

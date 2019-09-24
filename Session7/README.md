@@ -1,6 +1,6 @@
 # TSAI_Session7
 
-Project  for The School of AI
+Project for The School of AI
 ---------------------------------------------------------------------------------------
 ## **Assignment7A :**
 
