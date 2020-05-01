@@ -31,8 +31,15 @@ Config.set('graphics', 'height', '660')
 
 ##################################################
 ''' We set the parameters '''
-seed = 0 # Random seed number
 start_timesteps = 1000
+train_skip = 500
+debug_flag = False
+# debug_flag = True
+if(debug_flag):
+    start_timesteps = 50
+    train_skip = 50
+
+seed = 0 # Random seed number
 eval_freq = 5e3 # How often the evaluation step is performed (after how many timesteps)
 max_timesteps = 5e5 # Total number of iterations/timesteps
 save_models = True # Boolean checker whether or not to save the pre-trained model
@@ -43,7 +50,7 @@ tau = 0.005 # Target network update rate
 policy_noise = 0.2 # STD of Gaussian noise added to the actions for the exploration purposes
 noise_clip = 0.5 # Maximum value of the Gaussian noise added to the actions (policy)
 policy_freq = 2 # Number of iterations to wait before the policy network (Actor model) is updated
-action2rotation = [0,5,10,-5,-10]
+action2rotation = [0,-3,3,-5,5]
 last_reward = 0
 
 ##################################################
@@ -60,7 +67,9 @@ state_dim = 5
 action_dim = 5
 action_space_low = -5
 action_space_high = 5
-max_action = 1
+
+# max_action = float(env.action_space.high[0])
+max_action = action_space_high
 
 # Initializing the last distance
 last_distance = 0
@@ -87,7 +96,6 @@ im = CoreImage("./images/MASK1.png")
 
 imgCV2 = cv2.imread('./images/MASK1.png')
 rows,cols, dims = imgCV2.shape
-# print("rows = ", rows, " cols = ", cols, " dims=", dims)
 
 # Initializing the map
 first_update = True
@@ -141,14 +149,16 @@ class Game(Widget):
         self.car.move(rotation)
         distance = np.sqrt((self.car.x - goal_x)**2 + (self.car.y - goal_y)**2)
 
-        if sand[int(self.car.x),int(self.car.y)] > 0: # car on sand
+        if sand[int(self.car.x),int(self.car.y)] > 0:
             self.car.velocity = Vector(0.5, 0).rotate(self.car.angle)
+            # print(1, goal_x, goal_y, distance, int(self.car.x),int(self.car.y),
             last_reward = -5
         else: # otherwise
             self.car.velocity = Vector(2, 0).rotate(self.car.angle)
-            last_reward = 5
+            last_reward = 10
+            # print(0, goal_x, goal_y, distance, int(self.car.x),int(self.car.y),
             if distance < last_distance:
-                last_reward = 7
+                last_reward = 15
 
         if self.car.x < 5:
             self.car.x = 5
@@ -215,11 +225,14 @@ class Game(Widget):
 
         cv2_y = int(self.height) - (int(self.car.y+50)) , int(self.height) - (int(self.car.y)-50)
         cv2_x = int(self.car.x-50), int(self.car.x)+50
+        # print("cv2_y = ", cv2_y)
+        # print("cv2_x = ", cv2_x)
 
         img = np.mean(imgCV2, axis=2)
         imgCV2_temp = np.zeros((100, 100), dtype=float)
         indX = -1
         indY = -1
+        # padding if car goes out of boundary
         for i in range(cv2_y[0], cv2_y[1]):
             indY+=1
             indX = -1
@@ -227,6 +240,8 @@ class Game(Widget):
                 indX+=1
                 if(i<0 or j<0 or i >= self.height or j >=self.width):
                     imgCV2_temp[indY][indX] = 255
+                elif((indX>40 and indX<60) and (indY>40 and indY<60)):
+                    imgCV2_temp[indY][indX] = 0
                 else:
                     imgCV2_temp[indY][indX] = img[i][j]
         imgCV2_temp = cv2.resize(imgCV2_temp, dsize=(50, 50), interpolation=cv2.INTER_CUBIC)
@@ -239,12 +254,12 @@ class Game(Widget):
         new_obs_dis = last_distance
 
         action = 0
-        # Before 10000 timesteps, we play random actions
+        # Before 1000 timesteps, we play random actions
         if total_timesteps < start_timesteps:
             action = random.sample(action2rotation, 1)[0]
 
         else: # After 10000 timesteps, we switch to the model
-            if(total_timesteps%1000==0):
+            if(total_timesteps%train_skip==0):
                 for loop in range(10):
                     policy.train(replay_buffer, episode_timesteps, batch_size, discount, tau, policy_noise, noise_clip, policy_freq)
                 episode_timesteps = 0
@@ -255,6 +270,8 @@ class Game(Widget):
 
         # We store the new transition into the Experience Replay memory (ReplayBuffer)
         replay_buffer.add((obs_img, obs_ori, -obs_ori, obs_dis, new_obs_img, new_obs_ori, -new_obs_ori, new_obs_dis, action, last_reward, done))
+
+        # We update the state, the episode timestep, the total timesteps, and the timesteps since the evaluation of the policy
 
         obs_img = new_obs_img
         obs_ori = new_obs_ori
@@ -267,6 +284,7 @@ class Game(Widget):
             print("")
             print("**************")
             print("car location = ", self.car.x, " ", self.car.y)
+            # print("new_obs = ", new_obs)
             print("action = ", action)
             print("last_reward = ", last_reward)
             print("last_distance = ", last_distance)

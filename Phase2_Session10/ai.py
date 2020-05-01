@@ -9,12 +9,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 from collections import deque
-
-action2rotation = np.array([0,5,10,-5,-10])
+action2rotation = np.array([0,-3,3,-5,5])
 it = 0
 
 class ReplayBuffer(object):
-  def __init__(self, max_size=50000):
+  def __init__(self, max_size=5000):
     self.storage = []
     self.max_size = max_size
     self.ptr = 0
@@ -58,26 +57,44 @@ class ReplayBuffer(object):
     batch_actions, np.array(batch_rewards).reshape(-1, 1), np.array(batch_dones).reshape(-1, 1)
 
 class Actor(nn.Module):
-  def __init__(self, state_dim=5, action_dim=5, max_action=1):
+  def __init__(self, state_dim=5, action_dim=5, max_action=5):
     super(Actor, self).__init__()
+    #MP
     self.conv1 = nn.Conv2d(1,3,kernel_size = 3)
-    self.conv2 = nn.Conv2d(3, 20, kernel_size=3)
-    self.conv2_drop = nn.Dropout2d()
+    self.bn1 = nn.BatchNorm2d(3)
+    self.conv2 = nn.Conv2d(3, 9, kernel_size=3)
+    self.bn2 = nn.BatchNorm2d(9)
+    self.drop1 = nn.Dropout2d()
+    # MP
+    self.conv3 = nn.Conv2d(9, 3, kernel_size=1)
+    self.bn3 = nn.BatchNorm2d(3)
+    self.conv4 = nn.Conv2d(3, 9, kernel_size=3)
+    self.bn4 = nn.BatchNorm2d(9)
+    self.drop2 = nn.Dropout2d() #
+    self.conv5 = nn.Conv2d(9, 9, kernel_size=3)
+    self.bn5 = nn.BatchNorm2d(9)
 
-    self.fc1 = nn.Linear(2420, 5)
-    self.fc2 = nn.Linear(8, 100)
-    self.fc3 = nn.Linear(100, action_dim)
+    self.fc1 = nn.Linear(441, 10)
+    self.fc2 = nn.Linear(13, 20)
+    self.fc3 = nn.Linear(20, action_dim)
     self.max_action = max_action
 
   def forward(self, x_img, x_ori1, x_ori2, x_dis):
-    x = F.relu(F.max_pool2d(self.conv1(x_img), 2))
-    x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), 2))
-    x = x.reshape(x.size(0), -1) # 2420
-    x = F.relu(self.fc1(x)) # 5
-    x = torch.cat([x, x_ori1, x_ori2, x_dis], 1) #8
-    x = F.relu(self.fc2(x)) # 100
+    x = F.relu(self.bn1(F.max_pool2d(self.conv1(x_img), 2))) #24
+    x = F.relu(self.bn2(self.conv2(x))) #22
+    x = F.relu(F.max_pool2d(self.drop1(x), 2)) #11
+
+    x = F.relu(self.bn3(self.conv3(x))) #11
+    x = self.bn4(self.conv4(x)) #9
+    x = F.relu(self.drop2(x))
+    x = F.relu(self.bn5(self.conv5(x))) #7
+
+    x = x.reshape(x.size(0), -1) # 441
+    x = F.relu(self.fc1(x)) # 10
+    x = torch.cat([x, x_ori1, x_ori2, x_dis], 1) #13
+    x = F.relu(self.fc2(x)) # 20
     x = F.dropout(x, training=self.training)
-    x = self.max_action * torch.tanh(self.fc3(x)) #3
+    x = self.fc3(x) #9
 
     values, indices = x.max(1)
     indices = indices.numpy()[:]
@@ -88,56 +105,105 @@ class Actor(nn.Module):
 # and two neural networks for the two Critic targets
 class Critic(nn.Module):
 
-  def __init__(self, state_dim=5, action_dim=5):
+  def __init__(self, state_dim=5, action_dim=9):
     super(Critic, self).__init__()
 
+    #MP
     self.conv1 = nn.Conv2d(1,3,kernel_size = 3)
-    self.conv2 = nn.Conv2d(3, 20, kernel_size=3)
-    self.conv2_drop = nn.Dropout2d()
-    self.fc1 = nn.Linear(2420, 5)
-    #concat
-    self.fc2 = nn.Linear(9, 300)
-    self.fc3 = nn.Linear(300, 1)
+    self.bn1 = nn.BatchNorm2d(3)
+    self.conv2 = nn.Conv2d(3, 9, kernel_size=3)
+    self.bn2 = nn.BatchNorm2d(9)
+    self.drop1 = nn.Dropout2d()
+    # MP
+    self.conv3 = nn.Conv2d(9, 3, kernel_size=1)
+    self.bn3 = nn.BatchNorm2d(3)
+    self.conv4 = nn.Conv2d(3, 9, kernel_size=3)
+    self.bn4 = nn.BatchNorm2d(9)
+    self.drop2 = nn.Dropout2d() #
+    self.conv5 = nn.Conv2d(9, 9, kernel_size=3)
+    self.bn5 = nn.BatchNorm2d(9)
 
-    self.conv3 = nn.Conv2d(1,3,kernel_size = 3)
-    self.conv4 = nn.Conv2d(3, 20, kernel_size=3)
-    self.conv4_drop = nn.Dropout2d()
-    self.fc4 = nn.Linear(2420, 5)
+
+    self.fc1 = nn.Linear(441, 10)
     #concat
-    self.fc5 = nn.Linear(9, 300)
-    self.fc6 = nn.Linear(300, 1)
+    self.fc2 = nn.Linear(14, 20)
+    self.fc3 = nn.Linear(20, 1)
+
+    ###################
+
+    #MP
+    self.conv6 = nn.Conv2d(1,3,kernel_size = 3)
+    self.bn6 = nn.BatchNorm2d(3)
+    self.conv7 = nn.Conv2d(3, 9, kernel_size=3)
+    self.bn7 = nn.BatchNorm2d(9)
+    self.drop3 = nn.Dropout2d()
+    # MP
+    self.conv8 = nn.Conv2d(9, 3, kernel_size=1)
+    self.bn8 = nn.BatchNorm2d(3)
+    self.conv9 = nn.Conv2d(3, 9, kernel_size=3)
+    self.bn9 = nn.BatchNorm2d(9)
+    self.drop4 = nn.Dropout2d() #
+    self.conv10 = nn.Conv2d(9, 9, kernel_size=3)
+    self.bn10 = nn.BatchNorm2d(9)
+
+    self.fc4 = nn.Linear(441, 10)
+    #concat
+    self.fc5 = nn.Linear(14, 20)
+    self.fc6 = nn.Linear(20, 1)
 
 
   def forward(self, state_img, state_ori1, state_ori2, state_dis, action):
-    x1 = F.relu(F.max_pool2d(self.conv1(state_img), 2))
-    x1 = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x1)), 2))
-    x1 = x1.reshape(x1.size(0), -1) #2420
-    x1 = F.relu(self.fc1(x1)) # 5
-    x1 = torch.cat([x1, state_ori1, state_ori2, state_dis, action], 1) # 9
-    x1 = F.relu(self.fc2(x1)) #300
+    x1 = F.relu(self.bn1(F.max_pool2d(self.conv1(state_img), 2))) #24
+    x1 = F.relu(self.bn2(self.conv2(x1))) #22
+    x1 = F.relu(F.max_pool2d(self.drop1(x1), 2)) #11
+
+    x1 = F.relu(self.bn3(self.conv3(x1))) #11
+    x1 = self.bn4(self.conv4(x1)) #9
+    x1 = F.relu(self.drop2(x1))
+    x1 = F.relu(self.bn5(self.conv5(x1))) #7
+
+    x1 = x1.reshape(x1.size(0), -1) #441
+    x1 = F.relu(self.fc1(x1)) # 10
+    x1 = torch.cat([x1, state_ori1, state_ori2, state_dis, action], 1) # 14
+    x1 = F.relu(self.fc2(x1)) #20
     x1 = F.dropout(x1, training=self.training)
     x1 = self.fc3(x1) # 1
+
     #################
-    x2 = F.relu(F.max_pool2d(self.conv3(state_img), 2))
-    x2 = F.relu(F.max_pool2d(self.conv4_drop(self.conv4(x2)), 2))
-    x2 = x2.reshape(x2.size(0), -1) # 2420
-    x2 = F.relu(self.fc4(x2)) # 5
-    x2 = torch.cat([x2, state_ori1, state_ori2, state_dis, action], 1) # 9
-    x2 = F.relu(self.fc5(x2)) #300
+    x2 = F.relu(self.bn6(F.max_pool2d(self.conv6(state_img), 2))) #24
+    x2 = F.relu(self.bn7(self.conv7(x2))) #22
+    x2 = F.relu(F.max_pool2d(self.drop3(x2), 2)) #11
+
+    x2 = F.relu(self.bn8(self.conv8(x2))) #11
+    x2 = self.bn9(self.conv9(x2)) #9
+    x2 = F.relu(self.drop4(x2))
+    x2 = F.relu(self.bn10(self.conv10(x2))) #7
+
+    x2 = x2.reshape(x2.size(0), -1) #441
+    x2 = F.relu(self.fc4(x2)) # 10
+    x2 = torch.cat([x2, state_ori1, state_ori2, state_dis, action], 1) # 14
+    x2 = F.relu(self.fc5(x2)) #20
     x2 = F.dropout(x2, training=self.training)
     x2 = self.fc6(x2) # 1
 
     return x1, x2
 
   def Q1(self, state_img, state_ori1, state_ori2, state_dis, action):
-    x1 = F.relu(F.max_pool2d(self.conv1(state_img), 2))
-    x1 = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x1)), 2))
-    x1 = x1.reshape(x1.size(0), -1) #2420
-    x1 = F.relu(self.fc1(x1)) # 5
-    x1 = torch.cat([x1, state_ori1, state_ori2, state_dis, action], 1) # 9
-    x1 = F.relu(self.fc2(x1)) #300
+    x1 = F.relu(self.bn1(F.max_pool2d(self.conv1(state_img), 2))) #24
+    x1 = F.relu(self.bn2(self.conv2(x1))) #22
+    x1 = F.relu(F.max_pool2d(self.drop1(x1), 2)) #11
+
+    x1 = F.relu(self.bn3(self.conv3(x1))) #11
+    x1 = self.bn4(self.conv4(x1)) #9
+    x1 = F.relu(self.drop2(x1))
+    x1 = F.relu(self.bn5(self.conv5(x1))) #7
+
+    x1 = x1.reshape(x1.size(0), -1) #441
+    x1 = F.relu(self.fc1(x1)) # 10
+    x1 = torch.cat([x1, state_ori1, state_ori2, state_dis, action], 1) # 14
+    x1 = F.relu(self.fc2(x1)) #20
     x1 = F.dropout(x1, training=self.training)
-    x1 = self.fc3(x1) # 3
+    x1 = self.fc3(x1) # 1
     return x1
 
 # Building the whole Training Process into a class
@@ -147,11 +213,11 @@ class TD3(object):
     self.actor = Actor(state_dim, action_dim, max_action)
     self.actor_target = Actor(state_dim, action_dim, max_action)
     self.actor_target.load_state_dict(self.actor.state_dict())
-    self.actor_optimizer = torch.optim.Adam(self.actor.parameters())
+    self.actor_optimizer = torch.optim.Adam(self.actor.parameters(), lr=0.01)
     self.critic = Critic(state_dim, action_dim)
     self.critic_target = Critic(state_dim, action_dim)
     self.critic_target.load_state_dict(self.critic.state_dict())
-    self.critic_optimizer = torch.optim.Adam(self.critic.parameters())
+    self.critic_optimizer = torch.optim.Adam(self.critic.parameters(), lr=0.01)
     self.max_action = max_action
 
   def select_action(self, state_img,state_ori1,state_ori2,state_dis):
@@ -194,6 +260,8 @@ class TD3(object):
     # # Step 6: We add Gaussian noise to this next action a' and we clamp it in a range of values supported by the environment
     # noise = torch.Tensor(batch_actions).data.normal_(0, policy_noise)
     # noise = noise.clamp(-noise_clip, noise_clip)
+    # noise = noise.unsqueeze(1)
+
     # next_action = (next_action + noise).clamp(-self.max_action, self.max_action)
 
     # Step 7: The two Critic targets take each the couple (s', a') as input and return two Q-values Qt1(s',a') and Qt2(s',a') as outputs
