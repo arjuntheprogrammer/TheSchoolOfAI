@@ -47,3 +47,10 @@ This repository will contain projects/asssignments performed for The School Of A
 |38.| Deep Q-Learning | Deep Q Learning, Replay Memory, Partially Observable MDPs and ICC|
 |39.| A3C in depth | A3C in depth and implementation (ICC)|
 |40.| AlphaZero | Training an AlphaZero model from scratch!|
+
+---
+
+## **Successfully Completed the EVA course with flying colors**
+![Arjun Gupta EIP Certificate](https://user-images.githubusercontent.com/15984084/83055815-ff1c1300-a071-11ea-984a-ed254582a399.jpg)
+
+---
