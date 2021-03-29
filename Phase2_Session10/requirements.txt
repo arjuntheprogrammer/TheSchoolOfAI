@@ -35,7 +35,7 @@ plotly==3.10.0
 pybullet==2.7.1
 pycparser==2.19
 pygame==1.9.6
-Pygments==2.5.2
+Pygments==2.7.4
 pyodbc==4.0.30
 pyparsing==2.4.6
 pyrsistent==0.16.0
