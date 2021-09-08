@@ -30,7 +30,7 @@ olefile==0.46
 opencv-contrib-python==4.2.0.32
 opencv-python-headless==4.2.0.32
 pathlib2==2.3.5
-Pillow==6.2.0
+Pillow==8.3.2
 plotly==3.10.0
 pybullet==2.7.1
 pycparser==2.19
