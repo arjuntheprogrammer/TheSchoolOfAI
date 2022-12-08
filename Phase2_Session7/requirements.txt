@@ -1,6 +1,6 @@
 backports-abc==0.5
 backports.functools-lru-cache==1.6.1
-certifi==2019.11.28
+certifi==2022.12.7
 cffi==1.12.3
 cycler==0.10.0
 docutils==0.16
