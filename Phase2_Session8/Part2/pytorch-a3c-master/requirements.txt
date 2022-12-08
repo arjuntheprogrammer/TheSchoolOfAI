@@ -1,5 +1,5 @@
 atari-py==0.2.6
-certifi==2019.11.28
+certifi==2022.12.7
 chardet==3.0.4
 cloudpickle==1.2.2
 cycler==0.10.0
