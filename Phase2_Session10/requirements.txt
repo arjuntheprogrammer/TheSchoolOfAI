@@ -1,7 +1,7 @@
 attrs==19.3.0
 backports-abc==0.5
 backports.functools-lru-cache==1.6.1
-certifi==2019.11.28
+certifi==2022.12.7
 cffi==1.12.3
 chardet==3.0.4
 configparser==4.0.2
